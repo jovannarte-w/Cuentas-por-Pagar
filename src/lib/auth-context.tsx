@@ -21,11 +21,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Usuarios de demostración para desarrollo
-const DEMO_PASSWORD = "123456";
-
 const DEMO_USERS: Record<string, { password: string; user: User }> = {
   "admin@cenvalle.com": {
-    password: DEMO_PASSWORD,
+    password: "Cenvalle@Admin2024",
     user: {
       id: "0",
       email: "admin@cenvalle.com",
@@ -34,7 +32,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "auxiliar@cenvalle.com": {
-    password: DEMO_PASSWORD,
+    password: "Auxiliar@Tesoreria2024",
     user: {
       id: "1",
       email: "auxiliar@cenvalle.com",
@@ -43,7 +41,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "presidente@cenvalle.com": {
-    password: DEMO_PASSWORD,
+    password: "Presidente@2024",
     user: {
       id: "2",
       email: "presidente@cenvalle.com",
@@ -51,12 +49,12 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
       rol: "presidente",
     },
   },
-  "consulta@cenvalle.com": {
-    password: DEMO_PASSWORD,
+  "gerenciageneral@cenvalle.com": {
+    password: "Consulta@2024",
     user: {
       id: "3",
-      email: "consulta@cenvalle.com",
-      name: "Consulta Sistemas",
+      email: "gerenciageneral@cenvalle.com",
+      name: "Gerencia General",
       rol: "consulta",
     },
   },
