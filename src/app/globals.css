@@ -165,3 +165,11 @@
     @apply font-sans;
   }
 }
+
+/* Hide Netlify branding */
+[data-netlify-badge],
+.netlify-badge,
+[class*="netlify"],
+iframe[style*="netlify"] {
+  display: none !important;
+}
