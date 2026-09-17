@@ -32,18 +32,20 @@ export function AppHeader() {
       <h1 className="text-2xl font-bold text-slate-900">{titulo}</h1>
 
       <div className="flex items-center gap-4">
-        <Select value={rol} onValueChange={(v) => setRol(v as RolDemo)} items={rolLabel}>
-          <SelectTrigger className="hidden sm:inline-flex h-9 text-xs border-slate-200 bg-white text-slate-700">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {(Object.keys(rolLabel) as RolDemo[]).map((r) => (
-              <SelectItem key={r} value={r}>
-                {rolLabel[r]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {user?.rol === "administrador" && (
+          <Select value={rol} onValueChange={(v) => setRol(v as RolDemo)} items={rolLabel}>
+            <SelectTrigger className="hidden sm:inline-flex h-9 text-xs border-slate-200 bg-white text-slate-700">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {(Object.keys(rolLabel) as RolDemo[]).map((r) => (
+                <SelectItem key={r} value={r}>
+                  {rolLabel[r]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
           <div className="text-right hidden sm:block">
             <div className="text-sm font-semibold text-slate-900">{user?.name || nombre}</div>
