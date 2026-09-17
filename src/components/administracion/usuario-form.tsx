@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -65,7 +65,6 @@ export function UsuarioForm({
 }) {
   const editando = !!usuario;
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<UsuarioFormValues>({
     resolver: zodResolver(schema),
@@ -142,7 +141,6 @@ export function UsuarioForm({
                   <FormControl>
                     <div className="relative">
                       <Input
-                        ref={inputRef}
                         type={mostrarContrasena ? "text" : "password"}
                         placeholder={editando ? "Dejar vacío para mantener actual" : "Mínimo 6 caracteres"}
                         className="pr-10"
@@ -150,15 +148,11 @@ export function UsuarioForm({
                       />
                       <button
                         type="button"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
                           setMostrarContrasena(!mostrarContrasena);
-                          setTimeout(() => {
-                            if (inputRef.current) {
-                              inputRef.current.type = !mostrarContrasena ? "text" : "password";
-                            }
-                          }, 0);
                         }}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 focus:outline-none"
                         title={mostrarContrasena ? "Ocultar" : "Mostrar"}
                       >
                         {mostrarContrasena ? (
