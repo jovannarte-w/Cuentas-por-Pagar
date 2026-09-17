@@ -83,6 +83,8 @@ export function AppSidebar({
         Datos reales de septiembre 2026
         <br />
         {totalFacturas} facturas · {totalProveedores} proveedores
+        <br />
+        Elaborado por <span className="font-semibold text-sidebar-foreground/75">Jovanna Arteaga</span>
       </div>
 
       <button
