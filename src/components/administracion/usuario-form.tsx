@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,6 +64,7 @@ export function UsuarioForm({
   usuario?: UsuarioSistema;
 }) {
   const editando = !!usuario;
+  const [mostrarContrasena, setMostrarContrasena] = useState(false);
 
   const form = useForm<UsuarioFormValues>({
     resolver: zodResolver(schema),
@@ -137,11 +139,26 @@ export function UsuarioForm({
                     {editando && <span className="text-xs text-slate-500 ml-2">(dejar vacío para no cambiar)</span>}
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder={editando ? "Dejar vacío para mantener actual" : "Mínimo 6 caracteres"}
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={mostrarContrasena ? "text" : "password"}
+                        placeholder={editando ? "Dejar vacío para mantener actual" : "Mínimo 6 caracteres"}
+                        className="pr-10"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setMostrarContrasena(!mostrarContrasena)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                        title={mostrarContrasena ? "Ocultar" : "Mostrar"}
+                      >
+                        {mostrarContrasena ? (
+                          <EyeOff className="size-4" />
+                        ) : (
+                          <Eye className="size-4" />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
