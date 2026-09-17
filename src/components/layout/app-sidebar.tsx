@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/lib/sidebar-context";
-import { useRolDemo } from "@/lib/rol-demo-context";
+import { useAuth } from "@/lib/auth-context";
 import { getNavItems } from "./nav-items";
 
 export function AppSidebar({
@@ -18,8 +18,11 @@ export function AppSidebar({
 }) {
   const pathname = usePathname();
   const { contraido, setContraido } = useSidebar();
-  const { rol } = useRolDemo();
-  const filteredNavItems = getNavItems(rol);
+  const { user } = useAuth();
+
+  // Solo mostrar Administración si el usuario autenticado es administrador
+  const esAdmin = user?.rol === "administrador";
+  const filteredNavItems = getNavItems(esAdmin ? "administrador" : "auxiliar");
 
   return (
     <aside className={cn(
