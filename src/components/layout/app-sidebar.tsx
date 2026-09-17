@@ -22,7 +22,7 @@ export function AppSidebar({
 
   // Solo mostrar Administración si el usuario autenticado es administrador
   const esAdmin = user?.rol === "administrador";
-  const filteredNavItems = getNavItems(esAdmin ? "administrador" : "auxiliar");
+  const filteredNavItems = getNavItems(esAdmin ? "administrador" : "auxiliar_tesoreria");
 
   return (
     <aside className={cn(
