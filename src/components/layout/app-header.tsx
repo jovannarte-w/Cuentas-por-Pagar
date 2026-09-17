@@ -32,7 +32,7 @@ export function AppHeader() {
       <h1 className="text-2xl font-bold text-slate-900">{titulo}</h1>
 
       <div className="flex items-center gap-4">
-        {rol === "administrador" && (
+        {user?.rol === "administrador" && (
           <Select value={rol} onValueChange={(v) => setRol(v as RolDemo)} items={rolLabel}>
             <SelectTrigger className="hidden sm:inline-flex h-9 text-xs border-slate-200 bg-white text-slate-700">
               <SelectValue />
