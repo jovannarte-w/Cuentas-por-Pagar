@@ -2,16 +2,10 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { navItems } from "./nav-items";
-import { useRolDemo, rolLabel, type RolDemo } from "@/lib/rol-demo-context";
+import { useRolDemo, rolLabel } from "@/lib/rol-demo-context";
 import { useAuth } from "@/lib/auth-context";
 import { LogOut } from "lucide-react";
 
@@ -19,7 +13,7 @@ export function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const titulo = navItems.find((n) => pathname === n.href || pathname.startsWith(n.href + "/"))?.label ?? "Cenvalle";
-  const { rol, setRol, nombre } = useRolDemo();
+  const { rol, nombre } = useRolDemo();
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
@@ -32,18 +26,9 @@ export function AppHeader() {
       <h1 className="text-2xl font-bold text-slate-900">{titulo}</h1>
 
       <div className="flex items-center gap-4">
-        <Select value={rol} onValueChange={(v) => setRol(v as RolDemo)} items={rolLabel}>
-          <SelectTrigger className="hidden sm:inline-flex h-9 text-xs border-slate-200 bg-white text-slate-700">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {(Object.keys(rolLabel) as RolDemo[]).map((r) => (
-              <SelectItem key={r} value={r}>
-                {rolLabel[r]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Badge variant="outline" className="hidden sm:inline-flex border-border bg-background text-foreground">
+          {rolLabel[rol]}
+        </Badge>
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
           <div className="text-right hidden sm:block">
             <div className="text-sm font-semibold text-slate-900">{user?.name || nombre}</div>

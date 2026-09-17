@@ -1,9 +1,12 @@
 "use client";
 
 /**
- * Selector de rol SOLO para esta etapa de maqueta -- simula lo que hara
- * Supabase Auth + public.usuarios/roles, para poder probar los permisos
- * sin autenticación real todavía. Se elimina cuando se conecte el backend.
+ * Deriva los permisos directamente de la cuenta autenticada (ver
+ * src/lib/auth-context.tsx). Antes existia un selector de rol libre en el
+ * encabezado, pensado para probar los permisos antes de tener autenticacion
+ * real -- pero dejaba que cualquier cuenta se autoasignara "Presidente" y
+ * aprobara pagos, anulando la separacion de funciones. Ahora el rol viene
+ * fijo del login.
  *
  * Roles definidos por el cliente:
  *   administrador       -- hace todo, incluido gestionar usuarios y sus roles
@@ -15,7 +18,8 @@
  * ejecuta (Auxiliar) no aprueba. El Administrador es la excepcion.
  */
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
+import { useAuth, type User } from "./auth-context";
 
 export type RolDemo = "administrador" | "presidente" | "auxiliar_tesoreria" | "consulta";
 
@@ -33,11 +37,11 @@ export const rolDescripcion: Record<RolDemo, string> = {
   consulta: "Solo lectura: puede ver y exportar, no puede modificar nada.",
 };
 
-const nombrePorRol: Record<RolDemo, string> = {
-  administrador: "Administrador del sistema",
-  presidente: "Carlos Contreras",
-  auxiliar_tesoreria: "Jhonatan Sandoval",
-  consulta: "Diana Cerón",
+const rolPorAuthRol: Record<User["rol"], RolDemo> = {
+  administrador: "administrador",
+  presidente: "presidente",
+  auxiliar: "auxiliar_tesoreria",
+  consulta: "consulta",
 };
 
 /** Que puede hacer cada rol. Refleja las politicas RLS de la base de datos. */
@@ -58,7 +62,6 @@ export function permisosDe(rol: RolDemo) {
 
 type RolContextValue = {
   rol: RolDemo;
-  setRol: (r: RolDemo) => void;
   nombre: string;
   permisos: ReturnType<typeof permisosDe>;
 };
@@ -66,10 +69,12 @@ type RolContextValue = {
 const RolDemoContext = createContext<RolContextValue | null>(null);
 
 export function RolDemoProvider({ children }: { children: ReactNode }) {
-  const [rol, setRol] = useState<RolDemo>("administrador");
+  const { user } = useAuth();
+  const rol: RolDemo = user ? rolPorAuthRol[user.rol] : "consulta";
+
   return (
     <RolDemoContext.Provider
-      value={{ rol, setRol, nombre: nombrePorRol[rol], permisos: permisosDe(rol) }}
+      value={{ rol, nombre: user?.name ?? "", permisos: permisosDe(rol) }}
     >
       {children}
     </RolDemoContext.Provider>

@@ -6,7 +6,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  rol: "auxiliar" | "presidente" | "consulta";
+  rol: "administrador" | "auxiliar" | "presidente" | "consulta";
 }
 
 interface AuthContextType {
@@ -30,7 +30,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
       id: "0",
       email: "admin@cenvalle.com",
       name: "Administrador",
-      rol: "presidente",
+      rol: "administrador",
     },
   },
   "auxiliar@cenvalle.com": {
