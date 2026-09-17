@@ -169,7 +169,16 @@
 /* Hide Netlify branding */
 [data-netlify-badge],
 .netlify-badge,
-[class*="netlify"],
-iframe[style*="netlify"] {
+iframe[style*="netlify"],
+a[href*="netlify"],
+div[style*="netlify"],
+button[style*="powered"],
+[class*="netlify-badge"],
+[class*="powered-by-netlify"],
+.netlify-badge-link {
   display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
 }
