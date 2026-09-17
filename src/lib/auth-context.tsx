@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Usuarios de demostración para desarrollo
 const DEMO_USERS: Record<string, { password: string; user: User }> = {
   "admin@cenvalle.com": {
-    password: "Cenvalle@Admin2024",
+    password: "Admin2024",
     user: {
       id: "0",
       email: "admin@cenvalle.com",
@@ -32,7 +32,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "auxiliar@cenvalle.com": {
-    password: "Auxiliar@Tesoreria2024",
+    password: "Auxiliar2024",
     user: {
       id: "1",
       email: "auxiliar@cenvalle.com",
@@ -41,7 +41,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "presidente@cenvalle.com": {
-    password: "Presidente@2024",
+    password: "Presidente2024",
     user: {
       id: "2",
       email: "presidente@cenvalle.com",
@@ -50,7 +50,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "gerenciageneral@cenvalle.com": {
-    password: "Consulta@2024",
+    password: "Consulta2024",
     user: {
       id: "3",
       email: "gerenciageneral@cenvalle.com",
