@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/lib/sidebar-context";
-import { navItems } from "./nav-items";
+import { useRolDemo } from "@/lib/rol-demo-context";
+import { getNavItems } from "./nav-items";
 
 export function AppSidebar({
   totalFacturas,
@@ -17,6 +18,8 @@ export function AppSidebar({
 }) {
   const pathname = usePathname();
   const { contraido, setContraido } = useSidebar();
+  const { rol } = useRolDemo();
+  const filteredNavItems = getNavItems(rol);
 
   return (
     <aside className={cn(
@@ -54,7 +57,7 @@ export function AppSidebar({
       </Link>
 
       <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
-        {navItems.map((item) => {
+        {filteredNavItems.map((item) => {
           const active = pathname === item.href || pathname.startsWith(item.href + "/");
           const Icon = item.icon;
           return (
