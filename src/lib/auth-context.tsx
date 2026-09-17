@@ -50,7 +50,7 @@ const DEMO_USERS: Record<string, { password: string; user: User }> = {
     },
   },
   "gerenciageneral@cenvalle.com": {
-    password: "Consulta2024",
+    password: "Autoriza2024",
     user: {
       id: "3",
       email: "gerenciageneral@cenvalle.com",
