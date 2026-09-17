@@ -6,14 +6,14 @@ import { facturas, proveedores } from "@/lib/datos";
 
 export default function AppGroupLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ProtectedLayout>
-      <RolDemoProvider>
+    <RolDemoProvider>
+      <ProtectedLayout>
         <SidebarProvider>
           <AppGroupContent totalFacturas={facturas.length} totalProveedores={proveedores.length}>
             {children}
           </AppGroupContent>
         </SidebarProvider>
-      </RolDemoProvider>
-    </ProtectedLayout>
+      </ProtectedLayout>
+    </RolDemoProvider>
   );
 }

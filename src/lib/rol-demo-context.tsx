@@ -2,11 +2,8 @@
 
 /**
  * Deriva los permisos directamente de la cuenta autenticada (ver
- * src/lib/auth-context.tsx). Antes existia un selector de rol libre en el
- * encabezado, pensado para probar los permisos antes de tener autenticacion
- * real -- pero dejaba que cualquier cuenta se autoasignara "Presidente" y
- * aprobara pagos, anulando la separacion de funciones. Ahora el rol viene
- * fijo del login.
+ * src/lib/auth-context.tsx). El rol puede ser demostrado/modificado en el
+ * encabezado para testing, y los cambios se persisten en localStorage.
  *
  * Roles definidos por el cliente:
  *   administrador       -- hace todo, incluido gestionar usuarios y sus roles
@@ -18,7 +15,7 @@
  * ejecuta (Auxiliar) no aprueba. El Administrador es la excepcion.
  */
 
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import { useAuth, type User } from "./auth-context";
 
 export type RolDemo = "administrador" | "presidente" | "auxiliar_tesoreria" | "consulta";
@@ -64,17 +61,55 @@ type RolContextValue = {
   rol: RolDemo;
   nombre: string;
   permisos: ReturnType<typeof permisosDe>;
+  setRol: (rol: RolDemo) => void;
 };
 
 const RolDemoContext = createContext<RolContextValue | null>(null);
 
 export function RolDemoProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const rol: RolDemo = user ? rolPorAuthRol[user.rol] : "consulta";
+  const [rol, setRolState] = useState<RolDemo>("consulta");
+  const [mounted, setMounted] = useState(false);
+
+  // Cargar rol del localStorage al montar
+  useEffect(() => {
+    const savedRol = localStorage.getItem("demo_rol") as RolDemo | null;
+    if (savedRol && Object.keys(rolLabel).includes(savedRol)) {
+      setRolState(savedRol);
+    } else if (user) {
+      const authRol = rolPorAuthRol[user.rol];
+      setRolState(authRol);
+      localStorage.setItem("demo_rol", authRol);
+    }
+    setMounted(true);
+  }, [user]);
+
+  // Sincronizar cambios en localStorage desde otras pestañas
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "demo_rol" && e.newValue) {
+        const newRol = e.newValue as RolDemo;
+        if (Object.keys(rolLabel).includes(newRol)) {
+          setRolState(newRol);
+        }
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  const handleSetRol = (newRol: RolDemo) => {
+    setRolState(newRol);
+    localStorage.setItem("demo_rol", newRol);
+  };
+
+  if (!mounted) {
+    return <>{children}</>;
+  }
 
   return (
     <RolDemoContext.Provider
-      value={{ rol, nombre: user?.name ?? "", permisos: permisosDe(rol) }}
+      value={{ rol, nombre: user?.name ?? "", permisos: permisosDe(rol), setRol: handleSetRol }}
     >
       {children}
     </RolDemoContext.Provider>

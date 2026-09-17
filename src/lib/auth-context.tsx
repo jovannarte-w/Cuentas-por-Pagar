@@ -21,7 +21,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Usuarios de demostración para desarrollo
-const DEMO_PASSWORD = "Xy5!TDL2BMa8MWnY";
+const DEMO_PASSWORD = "123456";
 
 const DEMO_USERS: Record<string, { password: string; user: User }> = {
   "admin@cenvalle.com": {
