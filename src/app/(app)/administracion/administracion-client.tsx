@@ -38,7 +38,13 @@ export function AdministracionClient() {
   const { permisos, rol } = useRolDemo();
   const esAdmin = permisos.puedeAdministrarUsuarios;
 
-  const [usuarios, setUsuarios] = useState<UsuarioSistema[]>(usuariosEjemplo);
+  const [usuarios, setUsuarios] = useState<UsuarioSistema[]>(() => {
+    if (typeof window !== "undefined") {
+      const guardados = localStorage.getItem("usuarios_sistema");
+      return guardados ? JSON.parse(guardados) : usuariosEjemplo;
+    }
+    return usuariosEjemplo;
+  });
   const [formAbierto, setFormAbierto] = useState(false);
   const [formMontado, setFormMontado] = useState(false);
   const [editando, setEditando] = useState<UsuarioSistema | undefined>();
@@ -57,9 +63,11 @@ export function AdministracionClient() {
 
   function guardar(v: UsuarioFormValues) {
     if (editando) {
-      setUsuarios((prev) =>
-        prev.map((x) => (x.id === editando.id ? { ...x, ...v } : x))
-      );
+      setUsuarios((prev) => {
+        const actualizado = prev.map((x) => (x.id === editando.id ? { ...x, ...v } : x));
+        localStorage.setItem("usuarios_sistema", JSON.stringify(actualizado));
+        return actualizado;
+      });
       toast.success(`${v.nombreCompleto} actualizado`);
       return;
     }
@@ -70,12 +78,20 @@ export function AdministracionClient() {
       rol: v.rol,
       activo: true,
     };
-    setUsuarios((prev) => [nuevo, ...prev]);
+    setUsuarios((prev) => {
+      const conNuevo = [nuevo, ...prev];
+      localStorage.setItem("usuarios_sistema", JSON.stringify(conNuevo));
+      return conNuevo;
+    });
     toast.success(`Invitación enviada a ${v.email}`);
   }
 
   function alternarActivo(u: UsuarioSistema) {
-    setUsuarios((prev) => prev.map((x) => (x.id === u.id ? { ...x, activo: !x.activo } : x)));
+    setUsuarios((prev) => {
+      const actualizado = prev.map((x) => (x.id === u.id ? { ...x, activo: !x.activo } : x));
+      localStorage.setItem("usuarios_sistema", JSON.stringify(actualizado));
+      return actualizado;
+    });
     toast(u.activo ? `${u.nombreCompleto} inactivado` : `${u.nombreCompleto} activado`);
   }
 
