@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth-context";
 import { RolDemoProvider } from "@/lib/rol-demo-context";
+import { RemoveNetlifyBadge } from "@/components/remove-netlify-badge";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <RemoveNetlifyBadge />
         <AuthProvider>
           <RolDemoProvider>
             {children}
