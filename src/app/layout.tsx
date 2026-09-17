@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth-context";
+import { RolDemoProvider } from "@/lib/rol-demo-context";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,8 +29,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          {children}
-          <Toaster richColors position="top-right" />
+          <RolDemoProvider>
+            {children}
+            <Toaster richColors position="top-right" />
+          </RolDemoProvider>
         </AuthProvider>
       </body>
     </html>
