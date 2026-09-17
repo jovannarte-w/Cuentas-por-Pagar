@@ -49,7 +49,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-primary/5 flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-slate-200 shadow-lg overflow-hidden flex flex-col">
         <CardHeader className="text-center bg-white text-slate-900 p-8 space-y-3 border-b border-slate-200">
           <div className="flex justify-center mb-2">
@@ -153,12 +153,11 @@ export default function LoginPage() {
             </Button>
           </div>
 
+          <div className="mt-6 text-center text-xs text-slate-500 font-medium">
+            Elaborado por <span className="font-semibold text-slate-700">Jovanna Arteaga</span>
+          </div>
         </CardContent>
       </Card>
-
-      <div className="mt-8 text-center text-xs text-slate-500 font-medium">
-        Elaborado por <span className="font-semibold text-slate-700">Jovanna Arteaga</span>
-      </div>
     </div>
   );
 }
