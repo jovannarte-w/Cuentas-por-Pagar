@@ -104,11 +104,6 @@ export default function LoginPage() {
                 disabled={loading}
                 required
               />
-              {isLogin && (
-                <p className="text-xs text-slate-600 mt-1">
-                  Prueba: auxiliar@cenvalle.com
-                </p>
-              )}
             </div>
 
             <div>
@@ -124,11 +119,6 @@ export default function LoginPage() {
                 disabled={loading}
                 required
               />
-              {isLogin && (
-                <p className="text-xs text-slate-600 mt-1">
-                  Contraseña de prueba: 123456
-                </p>
-              )}
             </div>
 
             <Button
@@ -163,31 +153,6 @@ export default function LoginPage() {
             </Button>
           </div>
 
-          {isLogin && (
-            <div className="mt-6 pt-6 border-t border-slate-200">
-              <p className="text-xs font-semibold text-slate-700 mb-3 uppercase tracking-wide">
-                Usuarios de demostración
-              </p>
-              <div className="space-y-2 text-xs text-slate-600">
-                <div>
-                  <p className="font-semibold text-slate-700">👨‍💼 Administrador</p>
-                  <p>admin@cenvalle.com / 123456</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-700">👤 Auxiliar</p>
-                  <p>auxiliar@cenvalle.com / 123456</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-700">🎯 Presidente</p>
-                  <p>presidente@cenvalle.com / 123456</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-700">👁️ Consulta</p>
-                  <p>consulta@cenvalle.com / 123456</p>
-                </div>
-              </div>
-            </div>
-          )}
         </CardContent>
       </Card>
 
