@@ -38,6 +38,7 @@ const schema = z.object({
   nombreCompleto: z.string().min(1, "Obligatorio"),
   email: z.string().email("Correo inválido"),
   rol: z.enum(["administrador", "presidente", "auxiliar_tesoreria", "consulta"]),
+  contrasena: z.string().min(6, "Mínimo 6 caracteres").optional(),
 });
 
 export type UsuarioFormValues = z.infer<typeof schema>;
@@ -46,6 +47,7 @@ const valoresPorDefecto: UsuarioFormValues = {
   nombreCompleto: "",
   email: "",
   rol: "consulta",
+  contrasena: "",
 };
 
 export function UsuarioForm({
@@ -119,6 +121,27 @@ export function UsuarioForm({
                   <FormLabel>Correo</FormLabel>
                   <FormControl>
                     <Input type="email" placeholder="nombre@cenvalle.com.co" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="contrasena"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Contraseña
+                    {editando && <span className="text-xs text-slate-500 ml-2">(dejar vacío para no cambiar)</span>}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder={editando ? "Dejar vacío para mantener actual" : "Mínimo 6 caracteres"}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

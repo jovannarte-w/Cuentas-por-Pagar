@@ -64,15 +64,24 @@ export function AdministracionClient() {
   function guardar(v: UsuarioFormValues) {
     if (editando) {
       setUsuarios((prev) => {
-        const actualizado = prev.map((x) => (x.id === editando.id ? { ...x, ...v } : x));
+        const actualizado = prev.map((x) => (x.id === editando.id ? { ...x, nombreCompleto: v.nombreCompleto, email: v.email, rol: v.rol } : x));
         localStorage.setItem("usuarios_sistema", JSON.stringify(actualizado));
+
+        // Guardar contraseña si se proporcionó
+        if (v.contrasena) {
+          const contrasenas = JSON.parse(localStorage.getItem("usuarios_contrasenas") || "{}");
+          contrasenas[editando.id] = v.contrasena;
+          localStorage.setItem("usuarios_contrasenas", JSON.stringify(contrasenas));
+        }
+
         return actualizado;
       });
       toast.success(`${v.nombreCompleto} actualizado`);
       return;
     }
+    const nuevoId = crypto.randomUUID();
     const nuevo: UsuarioSistema = {
-      id: crypto.randomUUID(),
+      id: nuevoId,
       nombreCompleto: v.nombreCompleto,
       email: v.email,
       rol: v.rol,
@@ -81,6 +90,14 @@ export function AdministracionClient() {
     setUsuarios((prev) => {
       const conNuevo = [nuevo, ...prev];
       localStorage.setItem("usuarios_sistema", JSON.stringify(conNuevo));
+
+      // Guardar contraseña
+      if (v.contrasena) {
+        const contrasenas = JSON.parse(localStorage.getItem("usuarios_contrasenas") || "{}");
+        contrasenas[nuevoId] = v.contrasena;
+        localStorage.setItem("usuarios_contrasenas", JSON.stringify(contrasenas));
+      }
+
       return conNuevo;
     });
     toast.success(`Invitación enviada a ${v.email}`);
